@@ -1,852 +1,456 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NutriTag｜5 分鐘完成食品營養標示</title>
-  <meta name="description" content="輸入配方比例，自動產生食品營養標示。適合烘焙工作室、食品品牌與研發人員，手機也可使用。">
-
-  <style>
-    :root {
-      --green: #4CAF50;
-      --orange: #F26B2E;
-      --dark: #1f2937;
-      --gray: #6b7280;
-      --bg: #f9fafb;
-    }
-
-    * {
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
-    }
-
-    html, body {
-      overflow-x: hidden;
-    }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--dark);
-      line-height: 1.6;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 64px 20px;
-    }
-
-    h1 { font-size: 2.4rem; line-height: 1.3; letter-spacing: -0.02em;}
-    h2 { font-size: 1.9rem; margin-bottom: 16px; }
-    h3 { margin-top: 0; }
-
-    p { color: var(--gray); }
-
-    .hero p {
-      font-size: 1.05rem;
-      max-width: 520px;
-    }
-
-    /* Header */
-    .site-header {
-      background: #fff;
-      border-bottom: 1px solid #eee;
-    }
-
-    .header-inner {
-      max-width: 1100px;
-      margin: auto;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-    }
-
-    .logo {
-      height: 36px;
-    }
-
-    /* Button */
-    .btn {
-      display: inline-block;
-      background: var(--orange);
-      color: #fff;
-      padding: 14px 28px;
-      border-radius: 10px;
-      font-size: 1.05rem;
-      text-decoration: none;
-      font-weight: 700;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(0,0,0,.12);
-    }
-
-    /* Hero */
-    /* .hero {
-      background: #fff;
-      border-bottom: 1px solid #eee;
-    } */
-    .hero {
-    background: linear-gradient(
-        180deg,
-        #ffffff 0%,
-        #f0fdf4 100%
-      );
-    }
-
-    /* Hero 基本排版 */
-    .hero-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-    }
-
-    .hero ul {
-      padding-left: 20px;
-      color: var(--gray);
-    }
-
-    .hero + .section {
-      padding-top: 64px;
-    }
-    
-    .section.faq {
-      padding-top: 40px;
-      padding-bottom: 40px;
-    }
-    
-    .section.faq .container {
-      padding-top: 24px;
-      padding-bottom: 24px;
-    }
-
-    /* Sections */
-    .section {
-      padding-top: 48px;
-      padding-bottom: 48px;
-    }
-
-    .flow {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      text-align: center;
-    }
-
-    .flow div {
-      flex: 1;
-      background: var(--bg);
-      padding: 24px;
-      border-radius: 14px;
-      font-weight: 700;
-    }
-
-    .tags span {
-      display: inline-block;
-      background: #ecfdf5;
-      color: var(--green);
-      padding: 8px 14px;
-      border-radius: 999px;
-      margin: 6px;
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-      gap: 24px;
-    }
-
-    .step {
-      background: var(--bg);
-      padding: 24px;
-      border-radius: 14px;
-      font-weight: 700;
-    }
-
-    .features, .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-      gap: 24px;
-    }
-
-    .feature, .plan {
-      background: var(--bg);
-      padding: 24px;
-      border-radius: 16px;
-      font-weight: 700;
-    }
-
-    .highlight {
-      background: #fff7ed;
-      border: 2px solid var(--orange);
-    }
-
-    .price {
-      font-size: 1.4rem;
-      color: var(--orange);
-      font-weight: 800;
-    }
-
-    /* ===== FAQ 美化 ===== */
-
-    .faq details {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 18px 20px;
-      margin-bottom: 16px;
-      box-shadow:
-        0 6px 16px rgba(0,0,0,0.06),
-        0 1px 2px rgba(0,0,0,0.04);
-      transition: box-shadow .2s ease, transform .2s ease;
-    }
-
-    .faq details[open] {
-      box-shadow:
-        0 10px 24px rgba(0,0,0,0.10),
-        0 2px 6px rgba(0,0,0,0.06);
-    }
-
-    .faq summary {
-      cursor: pointer;
-      font-weight: 700;
-      color: var(--dark);
-      list-style: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .faq summary::-webkit-details-marker {
-      display: none;
-    }
-
-    /* 右側箭頭 */
-    .faq summary::after {
-      content: "＋";
-      font-size: 1.2rem;
-      color: var(--orange);
-      transition: transform .2s ease;
-    }
-
-    .faq details[open] summary::after {
-      content: "－";
-    }
-
-    /* 內容文字 */
-    .faq p {
-      margin-top: 12px;
-      font-size: 0.95rem;
-      color: var(--gray);
-      line-height: 1.7;
-    }
-
-    /* ===== FAQ 小 CTA ===== */
-
-    .faq-contact {
-      text-align: center;
-      margin-top: 32px;
-    }
-
-    .faq-contact p {
-      font-size: 0.95rem;
-      color: var(--gray);
-    }
-
-    .faq-contact a {
-      color: var(--orange);
-      font-weight: 700;
-      text-decoration: none;
-      margin-left: 4px;
-    }
-
-    .faq-contact a:hover {
-      text-decoration: underline;
-    }
-
-    /* CTA */
-    .cta {
-      text-align: center;
-      background: linear-gradient(135deg, var(--green), var(--orange));
-      color: white;
-      padding: 80px 20px;
-    }
-
-    .cta p { color: rgba(255,255,255,.95); }
-
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: var(--gray);
-      padding: 32px 20px;
-    }
-
-    /* 標題處理（手機可換行） */
-    .hero-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .hero-logo {
-      height: 40px;
-    }
-
-    /* 手機時 Logo 與文字分行 */
-    @media (max-width: 600px) {
-      .hero-title {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-      }
-    }
-
-    /* Hero 圖片橫向滑動區 */
-    .hero-demo-scroll {
-      display: flex;
-      gap: 20px;
-      overflow-x: auto;
-      padding: 12px 8px 20px;
-      scroll-snap-type: x mandatory;
-      max-width: 100%;
-    }
-
-    /* 單張示意卡片 */
-    .hero-demo-scroll img {
-      flex: 0 0 auto;
-      width: 85vw;
-      max-width: 360px;
-      background: #f9fafb;
-      border-radius: 16px;
-      border: 1.5px solid #d1d5db; /* ✅ 更深的灰 */
-      padding: 8px;
-      box-shadow: 
-        0 10px 24px rgba(0,0,0,0.10),
-        0 1px 2px rgba(0,0,0,0.06);
-      scroll-snap-align: center;
-    }
-
-    /* 桌機放大 */
-    @media (min-width: 900px) {
-      .hero-demo-scroll img {
-        width: 380px;
-      }
-      .container {
-        padding: 48px 20px;
-      }
-    }
-
-    .hero > .container > div:first-child {
-      max-width: 640px;
-    }
-
-    .hero-dots {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .hero-dots span {
-      width: 8px;
-      height: 8px;
-      background: #d1d5db;
-      border-radius: 50%;
-    }
-
-    .hero-demo-wrapper {
-      margin-top: 12px;
-    }
-
-    /* 滑動提示文字 */
-    .hero-demo-hint {
-      text-align: center;
-      font-size: 0.85rem;
-      color: #9ca3af;
-      margin-bottom: 10px;
-      user-select: none;
-    }
-
-    /* 箭頭 */
-    .hero-demo-hint .arrow {
-      font-weight: 700;
-      margin: 0 6px;
-    }
-
-    .hero-demo-hint .arrow {
-      animation: slideHint 1.6s infinite;
-    }
-
-    @keyframes slideHint {
-      0% { opacity: 0.4; }
-      50% { opacity: 1; }
-      100% { opacity: 0.4; }
-    }
-
-    .hero-cta-note {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #6b7280;
-      margin-top: 8px;
-    }
-    
-    .flow-steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 32px;
-      margin-top: 32px;
-    }
-
-    .flow-step {
-      background: var(--bg);
-      padding: 32px 24px;
-      border-radius: 18px;
-      text-align: center;
-    }
-
-    .flow-step h3 {
-      margin: 16px 0 8px;
-      font-size: 1.1rem;
-    }
-
-    .flow-step p {
-      font-size: 0.95rem;
-      color: var(--gray);
-    }
-
-    .flow-icon {
-      width: 48px;
-      height: 48px;
-      margin: auto;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--green), var(--orange));
-      color: #fff;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-demo-card {
-      flex: 0 0 auto;
-      width: 85vw;
-      max-width: 360px;
-      scroll-snap-align: center;
-      text-align: center;
-    }
-
-    /* Step 標籤 */
-    .hero-step-tag {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--green), var(--orange));
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 999px;
-      margin-bottom: 8px;
-    }
-
-    /* 圖片本體 */
-    .hero-demo-card img {
-      background: #f9fafb;
-      border-radius: 16px;
-      border: 1.5px solid #d1d5db;
-      padding: 8px;
-      box-shadow:
-        0 10px 24px rgba(0,0,0,0.10),
-        0 1px 2px rgba(0,0,0,0.06);
-    }
-
-    /* 圖片下方說明 */
-    .hero-demo-card p {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      color: var(--gray);
-      font-weight: 600;
-    }
-
-    .features-section {
-      background: linear-gradient(
-        180deg,
-        #ffffff 0%,
-        #f9fafb 100%
-      );
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 28px;
-      margin-top: 32px;
-    }
-
-    .feature-card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 28px 24px;
-      box-shadow:
-        0 8px 20px rgba(0,0,0,0.06),
-        0 1px 2px rgba(0,0,0,0.04);
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow:
-        0 16px 32px rgba(0,0,0,0.10),
-        0 2px 6px rgba(0,0,0,0.06);
-    }
-
-    .feature-card h3 {
-      margin: 14px 0 6px;
-      font-size: 1.05rem;
-    }
-
-    .feature-card p {
-      font-size: 0.9rem;
-      color: var(--gray);
-    }
-
-    /* Icon 樣式 */
-    .feature-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-    }
-
-    .feature-icon.green {
-      background: #ecfdf5;
-      color: var(--green);
-    }
-
-    .feature-icon.orange {
-      background: #fff7ed;
-      color: var(--orange);
-    }
-
-    /* ===== Section 背景角色（最小調整） ===== */
-
-    .section-white {
-      background: #ffffff;
-    }
-
-    .section-gray {
-      background: #f9fafb;
-    }
-
-    .mid-cta {
-      text-align: center;
-      margin-top: 32px;
-      font-size: 0.95rem;
-      color: var(--gray);
-    }
-
-    .mid-cta a {
-      color: var(--orange);
-      font-weight: 700;
-      text-decoration: none;
-    }
-    
-    /* ===== 內容區段縮小上下間距 ===== */
-
-    .section .container {
-      padding-top: 32px;
-      padding-bottom: 32px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NutriTag｜食品業 5 分鐘完成營養標示</title>
+<meta name="description" content="NutriTag 協助食品業者以配方比例快速產生營養標示。配方不外流、食品技師監製，適合實際上架販售使用。">
+
+<style>
+:root{
+  --orange:#F26B2E;
+  --green:#16a34a;
+  --dark:#1f2937;
+  --gray:#6b7280;
+  --bg:#f9fafb;
+}
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;}
+body{margin:0;background:var(--bg);color:var(--dark);line-height:1.6;}
+img{max-width:100%;display:block;}
+.container{max-width:1100px;margin:auto;padding:40px 20px;}
+h1{font-size:2rem;line-height:1.3;margin:0;}
+h2{font-size:1.5rem;margin-bottom:16px;}
+p{color:var(--gray);margin:8px 0;}
+
+.btn{
+  display:inline-block;
+  background:var(--orange);
+  color:#fff;
+  padding:14px 18px;
+  border-radius:12px;
+  font-weight:700;
+  text-decoration:none;
+  text-align:center;
+  width:100%;
+}
+
+/* HERO */
+.hero{
+  background:linear-gradient(180deg,#fff,#f0fdf4);
+  text-align:center;
+}
+.hero-badge{
+  background:#ecfdf5;
+  color:var(--green);
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:.8rem;
+  font-weight:700;
+  display:inline-block;
+  margin-bottom:12px;
+}
+.hero-note{font-size:.85rem;margin-top:10px;}
+
+/* HERO TITLE（LOGO 左，標題右） */
+.hero-title{
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  gap:12px;
+}
+.hero-title img{
+  height:40px;
+  flex-shrink:0;
+}
+.hero-title h1{
+  text-align:left;
+  word-break:keep-all;
+}
+
+/* ✅ 手機 Hero 標題字級 -8% */
+@media(max-width:600px){
+  .hero-title h1{
+    font-size:1.84rem; /* 2rem * 0.92 */
+  }
+}
+
+/* DEMO SCROLL */
+.hero-demo-scroll{
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  padding:16px 20px 8px;
+  margin-top:24px;
+  scroll-snap-type:x mandatory;
+  scroll-padding-left:20px;   /* ✅ 滑動手感優化 */
+  scroll-padding-right:20px;
+}
+.hero-demo-card{
+  flex:0 0 auto;
+  width:80vw;
+  max-width:320px;
+  scroll-snap-align:start;
+  text-align:left;
+}
+.hero-step-tag{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--green),var(--orange));
+  color:#fff;
+  font-size:.75rem;
+  font-weight:700;
+  padding:4px 10px;
+  border-radius:999px;
+  margin-bottom:8px;
+}
+.hero-demo-card img{
+  border-radius:16px;
+  border:1.5px solid #d1d5db;
+  padding:8px;
+  background:#fff;
+  box-shadow:0 10px 24px rgba(0,0,0,.1);
+}
+.demo-compare{
+  margin-top:10px;
+  font-size:.85rem;
+}
+.demo-compare .before{color:#9ca3af;}
+.demo-compare .after{color:var(--green);font-weight:700;}
+
+/* COMMON */
+.grid-3{display:grid;grid-template-columns:1fr;gap:16px;}
+.card{background:#fff;padding:18px;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.06);}
+.tags{display:flex;flex-wrap:wrap;gap:10px;}
+.tags span{background:#ecfdf5;color:var(--green);padding:6px 10px;border-radius:999px;font-size:.85rem;font-weight:700;}
+.steps,.features{display:grid;gap:16px;}
+.step,.feature{background:#fff;padding:18px;border-radius:14px;}
+.price-box{background:#fff;padding:18px;border-radius:14px;margin-bottom:16px;}
+.highlight{border:2px solid var(--orange);}
+.price{font-size:1.2rem;color:var(--orange);font-weight:800;}
+details{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px;}
+summary{font-weight:700;cursor:pointer;}
+
+/* CTA */
+.cta{
+  background:linear-gradient(135deg,var(--green),var(--orange));
+  color:#fff;
+  text-align:center;
+  padding:44px 20px;
+}
+.cta small{
+  display:block;
+  margin-top:10px;
+  font-size:.85rem;
+  opacity:.95;
+}
+
+/* STICKY CTA（預設隱藏） */
+.sticky-cta{
+  position:fixed;
+  bottom:12px;
+  left:12px;
+  right:12px;
+  background:var(--orange);
+  color:#fff;
+  text-align:center;
+  padding:14px;
+  border-radius:12px;
+  font-weight:700;
+  text-decoration:none;
+  box-shadow:0 10px 24px rgba(0,0,0,.2);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s ease;
+}
+.sticky-cta.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+@media(min-width:900px){
+  .sticky-cta{display:none;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .steps,.features{grid-template-columns:repeat(3,1fr);}
+}
+</style>
 </head>
 
 <body>
 
-<section class="hero">
-  <div class="container hero-grid">
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="container">
 
-    <!-- 文字區 -->
-    <div class="hero-text">
-      <h1 class="hero-title">
-        <img src="LOGO.jpg" alt="NutriTag Logo" class="hero-logo">
-        <span>NutriTag｜5 分鐘完成食品營養標示</span>
+    <div class="hero-badge">
+      台灣食品業專用｜營養標示自動計算
+    </div>
+
+    <div class="hero-title">
+      <img src="LOGO.jpg" alt="NutriTag Logo">
+      <h1>
+        營養標示這件事<br>
+        不該再佔用你的時間
       </h1>
-
-      <p>
-        不再手算、不用 Excel，<br>
-        輸入配方比例即可自動產生營養標示。
-      </p>
-
-      <ul>
-        <li>適合烘焙工作室、食品品牌、研發人員</li>
-        <li>電腦、手機都能使用</li>
-      </ul>
-
-      <a href="https://app.nutri-tag.com" class="btn">
-        立即免費產生營養標示（手機可用）
-      </a>
     </div>
 
-    <div class="hero-demo-scroll">
-
-    <div class="hero-demo-card">
-      <span class="hero-step-tag">Step 1</span>
-      <img src="hero-demo_0.jpg" alt="建立配方畫面">
-      <p>建立配方</p>
-    </div>
-
-    <div class="hero-demo-card">
-      <span class="hero-step-tag">Step 2</span>
-      <img src="hero-demo_1.jpg" alt="自動計算營養成分畫面">
-      <p>自動計算營養成分</p>
-    </div>
-
-    <div class="hero-demo-card">
-      <span class="hero-step-tag">Step 3</span>
-      <img src="hero-demo_2.jpg" alt="下載營養標示畫面">
-      <p>下載營養標示</p>
-    </div>
-
-  </div>
-    <!-- 圖片滑動區 -->
-    <!-- <div class="hero-media">
-      <div class="hero-demo-hint">
-        <span>←</span> 左右滑動查看示意畫面 <span>→</span>
-      </div>
-
-      <div class="hero-demo-scroll">
-        <img src="hero-demo_0.jpg" alt="營養標示試算畫面">
-        <img src="hero-demo_1.jpg" alt="營養標示試算畫面">
-        <img src="hero-demo_2.jpg" alt="營養標示下載畫面">
-      </div>
-    </div> -->
-
-    <p class="hero-cta-note">
-      ✅ 現在註冊帳號，即可免費試算用
+    <p>
+      配方常改、新品一直出<br>
+      這種重複計算，交給系統就好
     </p>
 
+    <a href="https://app.nutri-tag.com" class="btn">
+      用自己的配方試算看看
+    </a>
+
+    <div class="hero-note">
+      ✔ 配方不外流｜✔ 食品技師監製｜✔ 符合法規邏輯
+    </div>
+
+    <!-- DEMO -->
+    <div class="hero-demo-scroll">
+      <div class="hero-demo-card">
+        <span class="hero-step-tag">Step 1</span>
+        <img src="hero-demo_0.jpg">
+        <div class="demo-compare">
+          <div class="before">❌ 以前：配方一改就重做</div>
+          <div class="after">✅ 現在：集中管理一次輸入</div>
+        </div>
+      </div>
+      <div class="hero-demo-card">
+        <span class="hero-step-tag">Step 2</span>
+        <img src="hero-demo_1.jpg">
+        <div class="demo-compare">
+          <div class="before">❌ 以前：Excel 手算怕出錯</div>
+          <div class="after">✅ 現在：系統即時計算</div>
+        </div>
+      </div>
+      <div class="hero-demo-card">
+        <span class="hero-step-tag">Step 3</span>
+        <img src="hero-demo_2.jpg">
+        <div class="demo-compare">
+          <div class="before">❌ 以前：還要自己排版</div>
+          <div class="after">✅ 現在：下載即可用</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
+<!-- STICKY CTA -->
+<a href="https://app.nutri-tag.com" class="sticky-cta" id="stickyCta">
+用配方試算營養標示
+</a>
 
-<section class="section section-white">
+<script>
+/* ✅ Sticky CTA：Hero 滑出畫面後才出現 */
+const hero = document.getElementById('hero');
+const sticky = document.getElementById('stickyCta');
+
+const observer = new IntersectionObserver(
+  ([entry]) => {
+    if (!entry.isIntersecting) {
+      sticky.classList.add('show');
+    } else {
+      sticky.classList.remove('show');
+    }
+  },
+  { threshold: 0.1 }
+);
+
+observer.observe(hero);
+</script>
+
+<!-- PROBLEM -->
+<section class="problem">
   <div class="container">
-    <h2>三步驟，完成食品營養標示</h2>
+    <h2>多數食品業者卡關的不是「不會算」</h2>
+    <ul>
+      <li>改一點配方，營養標示就全部要重來</li>
+      <li>每次都怕格式或四捨五入不符合法規</li>
+      <li>交給外包檢驗前，內部沒有可用版本</li>
+      <li>新品多、測試快，計算時間被大量吃掉</li>
+    </ul>
+  </div>
+</section>
 
-    <div class="flow-steps">
-
-      <div class="flow-step">
-        <div class="flow-icon">1</div>
-        <h3>建立配方</h3>
-        <p>
-          從官方食品營養資料庫選擇原料，  
-          或新增自訂原料，設定配方比例。
-        </p>
+<!-- TRUST -->
+<section>
+  <div class="container">
+    <h2>為什麼食品業者敢用？</h2>
+    <div class="grid-3">
+      <div class="card">
+        <strong>🔒 配方不外流</strong>
+        <p>所有資料僅屬於你的帳號，不作任何公開或分析使用。</p>
       </div>
-
-      <div class="flow-step">
-        <div class="flow-icon">2</div>
-        <h3>自動計算營養成分</h3>
-        <p>
-          NutriTag 依比例自動換算  
-          熱量、蛋白質、脂肪與碳水化合物。
-        </p>
+      <div class="card">
+        <strong>👩‍🔬 食品技師參與設計</strong>
+        <p>計算邏輯、營養標示格式依實務與法規設計。</p>
       </div>
-
-      <div class="flow-step">
-        <div class="flow-icon">3</div>
-        <h3>下載營養標示</h3>
-        <p>
-          一鍵產生營養標示，  
-          可下載圖片或 PDF，用於包裝與提案。
-        </p>
+      <div class="card">
+        <strong>🇹🇼 TFDA 官方資料</strong>
+        <p>使用衛福部食品營養資料庫與標示原則。</p>
       </div>
-
-      <p class="mid-cta">
-        👉 已了解流程？<a href="https://app.nutri-tag.com">立即免費試算</a>
-      </p>
-
     </div>
   </div>
 </section>
 
-<section class="section section-white">
+<!-- CASE STUDY -->
+<section>
   <div class="container">
-    <h2>NutriTag 特別適合誰？</h2>
+    <h2>實際客戶使用情境</h2>
+    <div class="grid-3">
+      <div class="card">
+        <strong>🍰 烘焙工作室（新品測試）</strong>
+        <p>
+          每週測試 5–10 種配方，<br>
+          用 NutriTag 即時重算營養標示，<br>
+          不再為了改配方重做整張表。
+        </p>
+      </div>
+      <div class="card">
+        <strong>🏷 甜點品牌（包裝上架）</strong>
+        <p>
+          包裝設計前即可產出營養標示，<br>
+          與設計師、工廠溝通更順，<br>
+          減少反覆修改成本。
+        </p>
+      </div>
+      <div class="card">
+        <strong>🏭 食品工廠（內部開發）</strong>
+        <p>
+          研發階段先用 NutriTag 試算，<br>
+          僅在確認配方後再送第三方檢驗，<br>
+          大幅降低檢驗浪費。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USERS -->
+<section>
+  <div class="container">
+    <h2>特別適合以下角色</h2>
     <div class="tags">
+      <span>食品業老闆</span>
+      <span>產品經理</span>
+      <span>研發人員</span>
       <span>烘焙工作室</span>
-      <span>甜點品牌</span>
-      <span>團購賣家</span>
-      <span>食品研發人員</span>
       <span>食品工廠</span>
     </div>
-    <p>
-      如果你經常需要修改配方、重算營養標示、測試新品，  
-      NutriTag 可以幫你省下大量重複計算時間。
-    </p>
   </div>
 </section>
 
-<section class="section features-section">
+<!-- STEPS -->
+<section>
   <div class="container">
-    <h2>核心功能</h2>
-
-    <div class="features-grid">
-
-      <div class="feature-card">
-        <div class="feature-icon green">📊</div>
-        <h3>官方食品營養資料庫</h3>
-        <p>內建 TFDA 官方資料，試算更安心。</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon orange">🧪</div>
-        <h3>自訂原料與配方</h3>
-        <p>可建立專屬原料，靈活測試各種配方。</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon green">⚖️</div>
-        <h3>自動比例與營養換算</h3>
-        <p>輸入比例後，自動完成營養計算。</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon orange">🧾</div>
-        <h3>完整營養標示產生</h3>
-        <p>一鍵產出符合格式的營養標示。</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon green">📦</div>
-        <h3>產品標示資料管理</h3>
-        <p>集中管理產品名稱、內容與標示資訊。</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon orange">⚠️</div>
-        <h3>食品過敏原警語（Pro）</h3>
-        <p>自動產生過敏原標示，降低風險。</p>
-      </div>
-
+    <h2>實務流程只要三步</h2>
+    <div class="steps">
+      <div class="step">1️⃣ 建立原料與配方比例</div>
+      <div class="step">2️⃣ 系統自動換算營養成分</div>
+      <div class="step">3️⃣ 產出可直接使用的營養標示</div>
     </div>
   </div>
 </section>
 
-<section class="section section-white">
+<!-- FEATURES -->
+<section>
   <div class="container">
-    <h2>免費即可開始，升級解鎖完整功能</h2>
-    <div class="pricing-grid">
-      <div class="plan">
-        <h3>🆓 Free 方案</h3>
-        <ul>
-          <li>✅ 產品基本標示資料</li>
-          <li>✅ 配方與營養成分試算</li>
-          <li>✅ 每月 3 次試算</li>
-        </ul>
-      </div>
-
-      <div class="plan highlight">
-        <h3>🌟 Pro 方案</h3>
-        <p class="price">NT$599 / 月</p>
-        <ul>
-          <li>✅ 無限次配方試算（研發反覆測試不卡關）</li>
-          <li>✅ 正式營養標示（可直接用於包裝）</li>
-          <li>✅ 食品過敏原警語（降低標示錯誤風險）</li>
-          <li>✅ 完整產品標示資訊（一次產出，不漏欄位）</li>
-        </ul>
-        <p style="font-size:0.85rem;color:#6b7280;margin-top:8px;">
-          🎉 創始用戶早鳥價，未來將依功能調整
-        </p>
-      </div>
-      
+    <h2>食品業實際會用到的功能</h2>
+    <div class="features">
+      <div class="feature">官方食品營養資料庫</div>
+      <div class="feature">自訂原料與多版本配方</div>
+      <div class="feature">營養成分自動換算</div>
+      <div class="feature">符合法規的標示格式</div>
+      <div class="feature">產品標示資料集中管理</div>
+      <div class="feature">食品過敏原警語（Pro）</div>
     </div>
   </div>
 </section>
 
-<section class="section faq section-gray">
+<!-- PRICING -->
+<section>
   <div class="container">
-    <h2>常見問題</h2>
+    <h2>方案（先用、確定有幫助再付費）</h2>
+    <div class="price-box">
+      <h3>🆓 Free</h3>
+      <p>每月 3 次試算，適合評估流程與準確度。</p>
+    </div>
+    <div class="price-box highlight">
+      <h3>🌟 Pro</h3>
+      <div class="price">NT$599 / 月</div>
+      <p>
+        無限試算、正式營養標示、過敏原警語<br>
+        適合實際包裝、上架與對外販售使用。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="container">
+    <h2>常見法規與實務問題</h2>
 
     <details open>
-      <summary>計算結果準確嗎？</summary>
+      <summary>NutriTag 算出來的營養標示可以直接用在包裝上嗎？</summary>
       <p>
-        NutriTag 依據衛生福利部食品藥物管理署（TFDA）公布之食品營養資料庫，
-        並依「包裝食品營養標示應遵行事項」之計算與四捨五入原則，
-        依使用者填寫的原料比例進行營養成分換算。
-        <br><br>
-        實務上，多數食品業者在研發與包裝標示階段，
-        皆以配方計算方式完成營養標示規劃。
-        NutriTag 可協助使用者快速、系統化地完成此流程，
-        降低人工計算錯誤風險。
+        Pro 方案產出的營養標示依 TFDA 公告之營養標示規定與四捨五入原則設計，
+        實務上可直接用於包裝與設計稿。
+        若產品屬高風險或需上架大型通路，建議再搭配第三方檢驗確認。
       </p>
     </details>
 
     <details>
-      <summary>營養標示一定要送檢嗎？</summary>
+      <summary>一定要送檢才能做營養標示嗎？</summary>
       <p>
-        依台灣食品法規規範，營養標示須符合 TFDA 規定並對內容正確性負責，
-        實務上多數業者會依產品配方比例進行計算並產生營養標示。
-        <br><br>
-        NutriTag 依據官方食品營養資料庫與法規換算規則，
-        協助使用者快速完成營養標示規劃與實際包裝使用。
-        <br><br>
-        若產品屬於高風險品項、需上架大型通路，
-        或有法規爭議疑慮時，建議再搭配第三方檢驗作為最終確認。
+        台灣法規並未強制所有產品都需送檢，
+        多數食品業者是依配方計算產出營養標示，
+        NutriTag 即是協助完成此實務流程。
       </p>
     </details>
 
     <details>
-      <summary>手機可以用嗎？</summary>
-      <p>可以，NutriTag 為自適應 App，手機、平板與電腦皆可使用。</p>
-    </details>
-
-    <details>
-      <summary>一定要付費嗎？</summary>
-      <p>不用，免費即可開始使用，升級可解鎖完整功能。</p>
-    </details>
-
-    <details>
-      <summary>為什麼需要升級 Pro？</summary>
+      <summary>原料資料來源是否符合台灣法規？</summary>
       <p>
-        Free 方案適合試算與體驗流程；  
-        Pro 方案提供正式可商用的營養標示、過敏原警語與完整標示資訊，  
-        適合實際產品包裝、上架與對外使用。
+        系統使用衛福部 TFDA 公開食品營養資料庫，
+        並可依實際原料新增自訂數據。
       </p>
     </details>
 
-    <div class="faq-contact">
+    <details>
+      <summary>如果之後配方有修改怎麼辦？</summary>
       <p>
-        使用上有任何問題嗎？  
-        <a href="mailto:nutritag.ai@gmail.com">來信聯絡我們</a>
+        只需調整配方比例，系統會即時重算營養標示，
+        不需重新建立整份資料。
       </p>
-    </div>
+    </details>
+
+    <details>
+      <summary>資料與配方會不會被系統拿去用？</summary>
+      <p>
+        不會，所有配方僅存在於你的帳號中，
+        NutriTag 不做任何公開或分析使用。
+      </p>
+    </details>
   </div>
-
 </section>
 
+<!-- CTA -->
 <section class="cta">
-  <h2>現在就免費產生營養標示</h2>
-  <p>不需安裝，打開瀏覽器即可使用</p>
+  <h2>先確認「能不能用在你產品上」</h2>
+  <p>不用付錢、不用綁約，直接用實際配方試算</p>
   <a href="https://app.nutri-tag.com" class="btn">
-    前往 NutriTag｜台灣營養標示計算工具
+    用我的配方試算營養標示
   </a>
+  <small>
+    多數食品業者都是試算過一次，就知道值不值得
+  </small>
 </section>
 
-<footer>
-  © 2026 NutriTag
-</footer>
+<a href="https://app.nutri-tag.com" class="sticky-cta">
+用配方試算營養標示
+</a>
 
 </body>
 </html>
