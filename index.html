@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>NutriTag｜食品業 5 分鐘完成營養標示</title>
-<meta name="description" content="NutriTag 協助食品業者以配方比例快速產生營養標示。配方不外流、食品科學團隊監製，適合實際上架販售使用。">
+<meta name="description" content="NutriTag 協助食品業者以配方比例快速產生營養標示。配方不外流、食品專業團隊監製，適合實際上架販售使用。">
 
 <style>
 :root{
@@ -120,7 +120,7 @@ p{color:var(--gray);margin:8px 0;}
 .grid-3{display:grid;grid-template-columns:1fr;gap:16px;}
 .card{background:#fff;padding:18px;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.06);}
 .tags{display:flex;flex-wrap:wrap;gap:10px;}
-.tags span{background:#ecfdf5;color:var(--green);padding:6px 10px;border-radius:999px;font-size:.85rem;font-weight:700;}
+.tags span{background:#ecfdf5;color:var(--green);padding:8px 14px;border-radius:999px;font-size:1rem;font-weight:700;}
 .steps,.features{display:grid;gap:16px;}
 .step,.feature{background:#fff;padding:18px;border-radius:14px;}
 .price-box{background:#fff;padding:18px;border-radius:14px;margin-bottom:16px;}
@@ -171,6 +171,14 @@ summary{font-weight:700;cursor:pointer;}
   .grid-3{grid-template-columns:repeat(3,1fr);}
   .steps,.features{grid-template-columns:repeat(3,1fr);}
 }
+
+@media (max-width:600px){
+  .tags span{
+    font-size:1.05rem;
+    padding:10px 16px;
+  }
+}
+
 </style>
 </head>
 
@@ -187,22 +195,22 @@ summary{font-weight:700;cursor:pointer;}
     <div class="hero-title">
       <img src="LOGO.jpg" alt="NutriTag Logo">
       <h1>
-        營養標示這件事<br>
-        不該再佔用你的時間
+        食品業營養標示<br>
+        5分鐘用配方直接算好
       </h1>
     </div>
 
     <p>
-      配方常改、新品一直出<br>
-      這種重複計算，交給系統就好
+      配方一改就要重算？<br>
+      營養標示，其實可以不用再重做
     </p>
 
     <a href="https://app.nutri-tag.com" class="btn">
-      用自己的配方試算看看
+      免費用自己的配方試算
     </a>
 
     <div class="hero-note">
-      ✔ 配方不外流｜✔ 食品團隊監製｜✔ 符合法規邏輯
+      ✔ 配方不外流｜✔ 食品專業團隊監製｜✔ 符合法規要求
     </div>
 
     <!-- DEMO -->
@@ -238,7 +246,7 @@ summary{font-weight:700;cursor:pointer;}
 
 <!-- STICKY CTA -->
 <a href="https://app.nutri-tag.com" class="sticky-cta" id="stickyCta">
-用配方試算營養標示
+免費試算營養標示
 </a>
 
 <script>
@@ -265,7 +273,7 @@ observer.observe(hero);
   <div class="container">
     <h2>多數食品業者卡關的不是「不會算」</h2>
     <ul>
-      <li>改一點配方，營養標示就全部要重來</li>
+      <li>只改一個原料比例，整張營養標示就得重做</li>
       <li>每次都怕格式或四捨五入不符合法規</li>
       <li>交給外包檢驗前，內部沒有可用版本</li>
       <li>新品多、測試快，計算時間被大量吃掉</li>
@@ -276,19 +284,31 @@ observer.observe(hero);
 <!-- TRUST -->
 <section>
   <div class="container">
-    <h2>為什麼食品業者敢用？</h2>
+    <h2>食品業者為什麼敢用 NutriTag？</h2>
+
     <div class="grid-3">
       <div class="card">
         <strong>🔒 配方不外流</strong>
-        <p>所有資料僅屬於你的帳號，不作任何公開或分析使用。</p>
+        <p>
+          所有配方與資料僅存在你的帳號中，
+          不作任何公開、分析或第三方使用。
+        </p>
       </div>
+
       <div class="card">
-        <strong>👩‍🔬 食品技師參與設計</strong>
-        <p>計算邏輯、營養標示格式依實務與法規設計。</p>
+        <strong>✅ 符合法規要求</strong>
+        <p>
+          營養成分計算與標示格式，
+          依台灣 TFDA 法規與實務流程設計。
+        </p>
       </div>
+
       <div class="card">
-        <strong>🇹🇼 TFDA 官方資料</strong>
-        <p>使用衛福部食品營養資料庫與標示原則。</p>
+        <strong>👩‍🔬 食品專業設計</strong>
+        <p>
+          由食品技師參與規劃，
+          從研發、包裝到上架流程都能實際使用。
+        </p>
       </div>
     </div>
   </div>
@@ -300,15 +320,15 @@ observer.observe(hero);
     <h2>實際客戶使用情境</h2>
     <div class="grid-3">
       <div class="card">
-        <strong>🍰 烘焙工作室（新品測試）</strong>
+        <strong>🍰 烘焙工作室｜新品測試</strong>
         <p>
-          每週測試 5–10 種配方，<br>
+          每週多次調整配方，。<br>
           用 NutriTag 即時重算營養標示，<br>
           不再為了改配方重做整張表。
         </p>
       </div>
       <div class="card">
-        <strong>🏷 甜點品牌（包裝上架）</strong>
+        <strong>📦 甜點品牌｜包裝設計</strong>
         <p>
           包裝設計前即可產出營養標示，<br>
           與設計師、工廠溝通更順，<br>
@@ -316,7 +336,7 @@ observer.observe(hero);
         </p>
       </div>
       <div class="card">
-        <strong>🏭 食品工廠（內部開發）</strong>
+        <strong>🏭 食品工廠｜研發流程</strong>
         <p>
           研發階段先用 NutriTag 試算，<br>
           僅在確認配方後再送第三方檢驗，<br>
@@ -333,8 +353,9 @@ observer.observe(hero);
     <h2>特別適合以下角色</h2>
     <div class="tags">
       <span>食品業老闆</span>
-      <span>產品經理</span>
       <span>食品研發人員</span>
+      <span>包裝食品業者</span>
+      <span>產品經理</span>
       <span>烘焙工作室</span>
       <span>食品工廠</span>
     </div>
@@ -371,10 +392,10 @@ observer.observe(hero);
 <!-- PRICING -->
 <section>
   <div class="container">
-    <h2>方案（先用、確定有幫助再付費）</h2>
+    <h2>方案說明</h2>
     <div class="price-box">
       <h3>🆓 Free</h3>
-      <p>每月 3 次試算，適合評估流程與準確度。</p>
+      <p>每月 3 次試算，不用刷卡，適合先確認流程。</p>
     </div>
     <div class="price-box highlight">
       <h3>🌟 Pro</h3>
@@ -393,7 +414,7 @@ observer.observe(hero);
     <h2>常見法規與實務問題</h2>
 
     <details open>
-      <summary>NutriTag 算出來的營養標示可以直接用在包裝上嗎？</summary>
+      <summary>營養標示可以直接用在包裝上嗎？</summary>
       <p>
         Pro 方案產出的營養標示依 TFDA 公告之營養標示規定與四捨五入原則設計，
         實務上可直接用於包裝與設計稿。
@@ -419,6 +440,14 @@ observer.observe(hero);
     </details>
 
     <details>
+      <summary>資料與配方會外流嗎？</summary>
+      <p>
+        不會，所有配方僅存在於你的帳號中，
+        NutriTag 不做任何公開或分析使用。
+      </p>
+    </details>
+
+    <details>
       <summary>如果之後配方有修改怎麼辦？</summary>
       <p>
         只需調整配方比例，系統會即時重算營養標示，
@@ -426,25 +455,18 @@ observer.observe(hero);
       </p>
     </details>
 
-    <details>
-      <summary>資料與配方會不會被系統拿去用？</summary>
-      <p>
-        不會，所有配方僅存在於你的帳號中，
-        NutriTag 不做任何公開或分析使用。
-      </p>
-    </details>
   </div>
 </section>
 
 <!-- CTA -->
 <section class="cta">
-  <h2>先確認「能不能用在你產品上」</h2>
-  <p>不用付錢、不用綁約，直接用實際配方試算</p>
+  <h2>用你的實際配方，直接試算營養標示</h2>
+  <p>不需付費、不綁約，直接以實際配方進行試算</p>
   <a href="https://app.nutri-tag.com" class="btn">
-    用我的配方試算營養標示
+    免費試算營養標示
   </a>
   <small>
-    多數食品業者都是試算過一次，就知道值不值得
+    多數食品業者都是試算過一次，就知道省下多少時間
   </small>
 </section>
 
