@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NutriTag｜食品業 5 分鐘完成營養標示</title>
-<meta name="description" content="NutriTag 協助食品業者以配方比例快速產生營養標示。配方不外流、食品專業團隊監製，適合實際上架販售使用。">
+<title>NutriTag｜食品營養標示計算工具</title>
+<meta name="description" content="NutriTag 協助台灣食品業者依配方比例快速試算營養成分，預覽營養標示格式。Free 可免費試算，Pro 可正式輸出標籤 PNG。">
 
 <style>
 :root{
@@ -15,12 +15,15 @@
   --bg:#f9fafb;
 }
 *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;}
+html,body{max-width:100%;overflow-x:hidden;}
 body{margin:0;background:var(--bg);color:var(--dark);line-height:1.6;}
 img{max-width:100%;display:block;}
 .container{max-width:1100px;margin:auto;padding:40px 20px;}
 h1{font-size:2rem;line-height:1.3;margin:0;}
 h2{font-size:1.5rem;margin-bottom:16px;}
 p{color:var(--gray);margin:8px 0;}
+ul{padding-left:1.25rem;color:var(--dark);}
+li{margin:8px 0;}
 
 .btn{
   display:inline-block;
@@ -49,9 +52,9 @@ p{color:var(--gray);margin:8px 0;}
   display:inline-block;
   margin-bottom:12px;
 }
-.hero-note{font-size:.85rem;margin-top:10px;}
+.hero-note{font-size:.85rem;margin-top:10px;color:#4b5563;}
 
-/* HERO TITLE（LOGO 左，標題右） */
+/* HERO TITLE */
 .hero-title{
   display:flex;
   align-items:flex-start;
@@ -67,13 +70,6 @@ p{color:var(--gray);margin:8px 0;}
   word-break:keep-all;
 }
 
-/* ✅ 手機 Hero 標題字級 -8% */
-@media(max-width:600px){
-  .hero-title h1{
-    font-size:1.84rem; /* 2rem * 0.92 */
-  }
-}
-
 /* DEMO SCROLL */
 .hero-demo-scroll{
   display:flex;
@@ -82,7 +78,7 @@ p{color:var(--gray);margin:8px 0;}
   padding:16px 20px 8px;
   margin-top:24px;
   scroll-snap-type:x mandatory;
-  scroll-padding-left:20px;   /* ✅ 滑動手感優化 */
+  scroll-padding-left:20px;
   scroll-padding-right:20px;
 }
 .hero-demo-card{
@@ -136,6 +132,7 @@ summary{font-weight:700;cursor:pointer;}
   text-align:center;
   padding:44px 20px;
 }
+.cta p{color:#fff;opacity:.95;}
 .cta small{
   display:block;
   margin-top:10px;
@@ -143,7 +140,7 @@ summary{font-weight:700;cursor:pointer;}
   opacity:.95;
 }
 
-/* STICKY CTA（預設隱藏） */
+/* STICKY CTA */
 .sticky-cta{
   position:fixed;
   bottom:12px;
@@ -160,6 +157,7 @@ summary{font-weight:700;cursor:pointer;}
   opacity:0;
   pointer-events:none;
   transition:opacity .3s ease;
+  z-index:99;
 }
 .sticky-cta.show{
   opacity:1;
@@ -172,13 +170,15 @@ summary{font-weight:700;cursor:pointer;}
   .steps,.features{grid-template-columns:repeat(3,1fr);}
 }
 
-@media (max-width:600px){
+@media(max-width:600px){
+  .hero-title h1{
+    font-size:1.84rem;
+  }
   .tags span{
     font-size:1.05rem;
     padding:10px 16px;
   }
 }
-
 </style>
 </head>
 
@@ -189,54 +189,56 @@ summary{font-weight:700;cursor:pointer;}
   <div class="container">
 
     <div class="hero-badge">
-      台灣食品業專用｜營養標示自動計算
+      NutriTag食品營養標示計算工具｜台灣食品業專用
     </div>
 
     <div class="hero-title">
       <img src="LOGO.jpg" alt="NutriTag Logo">
       <h1>
-        食品業營養標示<br>
-        5分鐘用配方直接算好
+        用你的配方，<br>
+        快速看見營養標示成品
       </h1>
     </div>
 
     <p>
       配方一改就要重算？<br>
-      營養標示，其實可以不用再重做
+      NutriTag 協助你用原料與配方重量，快速試算營養成分並預覽標籤格式。
     </p>
 
     <a href="https://app.nutri-tag.com" class="btn">
-      免費用自己的配方試算
+      免費註冊，開始配方試算
     </a>
 
     <div class="hero-note">
-      ✔ 配方不外流｜✔ 食品專業團隊監製｜✔ 符合法規要求
+      ✔ 配方不公開｜✔ 每月 3 次免費試算｜✔ Pro 可正式輸出標籤
     </div>
 
     <!-- DEMO -->
     <div class="hero-demo-scroll">
       <div class="hero-demo-card">
         <span class="hero-step-tag">Step 1</span>
-        <img src="hero-demo_0.jpg">
+        <img src="hero-demo_0.jpg" alt="加入原料與配方資料示意圖">
         <div class="demo-compare">
           <div class="before">❌ 以前：配方一改就重做</div>
-          <div class="after">✅ 現在：集中管理一次輸入</div>
+          <div class="after">✅ 現在：加入原料，集中試算</div>
         </div>
       </div>
+
       <div class="hero-demo-card">
         <span class="hero-step-tag">Step 2</span>
-        <img src="hero-demo_1.jpg">
+        <img src="hero-demo_1.jpg" alt="營養成分計算示意圖">
         <div class="demo-compare">
           <div class="before">❌ 以前：Excel 手算怕出錯</div>
-          <div class="after">✅ 現在：系統即時計算</div>
+          <div class="after">✅ 現在：系統換算比例與營養成分</div>
         </div>
       </div>
+
       <div class="hero-demo-card">
         <span class="hero-step-tag">Step 3</span>
-        <img src="hero-demo_2.jpg">
+        <img src="hero-demo_2.jpg" alt="營養標示輸出示意圖">
         <div class="demo-compare">
           <div class="before">❌ 以前：還要自己排版</div>
-          <div class="after">✅ 現在：下載即可用</div>
+          <div class="after">✅ 現在：預覽標籤，Pro 可下載圖片/div>
         </div>
       </div>
     </div>
@@ -246,11 +248,10 @@ summary{font-weight:700;cursor:pointer;}
 
 <!-- STICKY CTA -->
 <a href="https://app.nutri-tag.com" class="sticky-cta" id="stickyCta">
-免費試算營養標示
+免費開始配方試算
 </a>
 
 <script>
-/* ✅ Sticky CTA：Hero 滑出畫面後才出現 */
 const hero = document.getElementById('hero');
 const sticky = document.getElementById('stickyCta');
 
@@ -274,9 +275,9 @@ observer.observe(hero);
     <h2>多數食品業者卡關的不是「不會算」</h2>
     <ul>
       <li>只改一個原料比例，整張營養標示就得重做</li>
-      <li>每次都怕格式或四捨五入不符合法規</li>
-      <li>交給外包檢驗前，內部沒有可用版本</li>
-      <li>新品多、測試快，計算時間被大量吃掉</li>
+      <li>每次都怕格式、單位或四捨五入不一致</li>
+      <li>送檢或包裝設計前，內部沒有可快速確認的版本</li>
+      <li>新品多、測試快，營養標示試算耗掉大量時間</li>
     </ul>
   </div>
 </section>
@@ -284,30 +285,30 @@ observer.observe(hero);
 <!-- TRUST -->
 <section>
   <div class="container">
-    <h2>食品業者為什麼敢用 NutriTag？</h2>
+    <h2>為什麼食品業者適合用 NutriTag？</h2>
 
     <div class="grid-3">
       <div class="card">
-        <strong>🔒 配方不外流</strong>
+        <strong>🔒 配方不公開</strong>
         <p>
-          所有配方與資料僅存在你的帳號中，
-          不作任何公開、分析或第三方使用。
+          配方僅供你的帳號試算與標示輸出使用，
+          NutriTag 不會公開或提供第三方使用。
         </p>
       </div>
 
       <div class="card">
-        <strong>✅ 符合法規要求</strong>
+        <strong>✅ 依台灣標示格式產出</strong>
         <p>
-          營養成分計算與標示格式，
-          依台灣 TFDA 法規與實務流程設計。
+          營養成分計算與標示格式，依台灣包裝食品營養標示常見格式設計，
+          協助你快速完成內部試算與標籤規劃。
         </p>
       </div>
 
       <div class="card">
-        <strong>👩‍🔬 食品專業設計</strong>
+        <strong>👩‍🔬 食品實務流程導向</strong>
         <p>
-          由食品技師參與規劃，
-          從研發、包裝到上架流程都能實際使用。
+          從研發試算、包裝設計到上架前確認，
+          讓食品業者先用配方快速看到營養標示結果。
         </p>
       </div>
     </div>
@@ -317,30 +318,32 @@ observer.observe(hero);
 <!-- CASE STUDY -->
 <section>
   <div class="container">
-    <h2>實際客戶使用情境</h2>
+    <h2>實際使用情境</h2>
     <div class="grid-3">
       <div class="card">
         <strong>🍰 烘焙工作室｜新品測試</strong>
         <p>
-          每週多次調整配方，。<br>
-          用 NutriTag 即時重算營養標示，<br>
+          每週多次調整配方。<br>
+          用 NutriTag 即時試算營養標示，<br>
           不再為了改配方重做整張表。
         </p>
       </div>
+
       <div class="card">
         <strong>📦 甜點品牌｜包裝設計</strong>
         <p>
-          包裝設計前即可產出營養標示，<br>
+          包裝設計前先產出標籤預覽，<br>
           與設計師、工廠溝通更順，<br>
           減少反覆修改成本。
         </p>
       </div>
+
       <div class="card">
         <strong>🏭 食品工廠｜研發流程</strong>
         <p>
           研發階段先用 NutriTag 試算，<br>
-          僅在確認配方後再送第三方檢驗，<br>
-          大幅降低檢驗浪費。
+          確認配方後再視產品需求搭配第三方檢驗，<br>
+          降低重複確認成本。
         </p>
       </div>
     </div>
@@ -367,9 +370,9 @@ observer.observe(hero);
   <div class="container">
     <h2>實務流程只要三步</h2>
     <div class="steps">
-      <div class="step">1️⃣ 建立原料與配方比例</div>
-      <div class="step">2️⃣ 系統自動換算營養成分</div>
-      <div class="step">3️⃣ 產出可直接使用的營養標示</div>
+      <div class="step">1️⃣ 加入原料與配方重量</div>
+      <div class="step">2️⃣ 系統換算比例與營養成分</div>
+      <div class="step">3️⃣ 預覽營養標示，Pro 可正式輸出圖片</div>
     </div>
   </div>
 </section>
@@ -379,11 +382,12 @@ observer.observe(hero);
   <div class="container">
     <h2>食品業實際會用到的功能</h2>
     <div class="features">
-      <div class="feature">官方食品營養資料庫</div>
-      <div class="feature">自訂原料與多版本配方</div>
-      <div class="feature">營養成分自動換算</div>
-      <div class="feature">符合法規的標示格式</div>
-      <div class="feature">產品標示資料集中管理</div>
+      <div class="feature">TFDA 食品營養資料庫</div>
+      <div class="feature">自訂原料資料</div>
+      <div class="feature">配方重量自動換算比例</div>
+      <div class="feature">營養成分自動試算</div>
+      <div class="feature">產品基本標示資料填寫</div>
+      <div class="feature">營養標示 PNG 輸出（Pro）</div>
       <div class="feature">食品過敏原警語（Pro）</div>
     </div>
   </div>
@@ -393,16 +397,18 @@ observer.observe(hero);
 <section>
   <div class="container">
     <h2>方案說明</h2>
+
     <div class="price-box">
       <h3>🆓 Free</h3>
-      <p>每月 3 次試算，不用刷卡，適合先確認流程。</p>
+      <p>每月 3 次免費試算，不用刷卡，適合先確認流程與標籤格式。</p>
     </div>
+
     <div class="price-box highlight">
       <h3>🌟 Pro</h3>
       <div class="price">NT$599 / 月</div>
       <p>
-        無限試算、正式營養標示、過敏原警語<br>
-        適合實際包裝、上架與對外販售使用。
+        無限試算、正式輸出營養標示圖片、過敏原警語<br>
+        適合包裝設計、上架前確認與對外販售流程。
       </p>
     </div>
   </div>
@@ -416,42 +422,51 @@ observer.observe(hero);
     <details open>
       <summary>營養標示可以直接用在包裝上嗎？</summary>
       <p>
-        Pro 方案產出的營養標示依 TFDA 公告之營養標示規定與四捨五入原則設計，
-        實務上可直接用於包裝與設計稿。
-        若產品屬高風險或需上架大型通路，建議再搭配第三方檢驗確認。
+        Pro 方案產出的營養標示會依台灣常見營養標示格式與四捨五入規則產出，
+        可作為包裝設計與標示規劃使用。
+        若產品屬高風險、特殊營養宣稱或需上架大型通路，
+        建議再搭配第三方檢驗或專業確認。
       </p>
     </details>
 
     <details>
       <summary>一定要送檢才能做營養標示嗎？</summary>
       <p>
-        台灣法規並未強制所有產品都需送檢，
-        多數食品業者是依配方計算產出營養標示，
-        NutriTag 即是協助完成此實務流程。
+        台灣法規並未強制所有產品都需送檢。
+        多數食品業者會依配方、原料資料與實際製程進行營養標示規劃，
+        NutriTag 即是協助你先完成配方試算與格式輸出。
       </p>
     </details>
 
     <details>
-      <summary>原料資料來源是否符合台灣法規？</summary>
+      <summary>原料資料來源是什麼？</summary>
       <p>
-        系統使用衛福部 TFDA 公開食品營養資料庫，
-        並可依實際原料新增自訂數據。
+        系統主要引用台灣衛生福利部食品藥物管理署（TFDA）食品營養成分資料庫，
+        並可依你的實際原料新增自訂數據。
       </p>
     </details>
 
     <details>
       <summary>資料與配方會外流嗎？</summary>
       <p>
-        不會，所有配方僅存在於你的帳號中，
-        NutriTag 不做任何公開或分析使用。
+        配方僅供你的帳號試算與標示輸出使用，
+        NutriTag 不會公開或提供第三方使用。
       </p>
     </details>
 
     <details>
       <summary>如果之後配方有修改怎麼辦？</summary>
       <p>
-        只需調整配方比例，系統會即時重算營養標示，
-        不需重新建立整份資料。
+        只需調整原料重量或配方比例，系統即可重新試算營養成分，
+        不需要從零建立整份資料。
+      </p>
+    </details>
+
+    <details>
+      <summary>Free 和 Pro 差在哪裡？</summary>
+      <p>
+        Free 每月可進行 3 次試算，適合先確認流程與標籤預覽。
+        Pro 可無限試算，並可正式輸出營養標示 PNG 與使用過敏原警語功能。
       </p>
     </details>
 
@@ -460,19 +475,15 @@ observer.observe(hero);
 
 <!-- CTA -->
 <section class="cta">
-  <h2>用你的實際配方，直接試算營養標示</h2>
-  <p>不需付費、不綁約，直接以實際配方進行試算</p>
+  <h2>用你的實際配方，開始試算營養標示</h2>
+  <p>不用刷卡，先確認流程、格式與輸出結果是否適合你的產品。</p>
   <a href="https://app.nutri-tag.com" class="btn">
-    免費試算營養標示
+    免費註冊，開始配方試算
   </a>
   <small>
-    多數食品業者都是試算過一次，就知道省下多少時間
+    先用一次實際配方，你會更清楚 NutriTag 能省下哪些重複整理的時間。
   </small>
 </section>
-
-<a href="https://app.nutri-tag.com" class="sticky-cta">
-用配方試算營養標示
-</a>
 
 </body>
 </html>
